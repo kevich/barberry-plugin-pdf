@@ -14,17 +14,13 @@ class Command implements InterfaceCommand
      */
     public function configure($commandString)
     {
-        $width = is_numeric($commandString) ? intval($commandString) : '';
-        $this->width = ($width !== '') ? min(2000, max(10, $width)) : '';
+        $this->width = is_numeric($commandString) ? intval($commandString) : null;
         return $this;
     }
 
     public function width()
     {
-        if ($this->width == '') {
-            return 800;
-        }
-        return $this->width;
+        return is_null($this->width) ? 800 : min(2000, max(10, $this->width));
     }
 
     public function __toString()

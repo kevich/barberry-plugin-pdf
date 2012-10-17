@@ -36,6 +36,14 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testEmptyDefaultCommand()
+    {
+        $this->assertEquals(
+            800,
+            self::command('')->width()
+        );
+    }
+
     public function testAmbiguityTest()
     {
         $this->assertFalse(self::command('200sda')->conforms('200'));
