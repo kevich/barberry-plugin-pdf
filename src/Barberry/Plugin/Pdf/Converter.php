@@ -60,7 +60,7 @@ class Converter implements Plugin\InterfaceConverter
 
     private static function pdfToPsPopplerCommand($tmpFilename, $page)
     {
-        return 'pdftops -level3 -f 1 -l ' . $page . ' -expand ' . escapeshellarg($tmpFilename) . ' -';
+        return 'pdftops -level3 -f ' . $page . ' -l ' . $page . ' -expand ' . escapeshellarg($tmpFilename) . ' -';
     }
 
     private static function psToJpegImagemagic($width)
