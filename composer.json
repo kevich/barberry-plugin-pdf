@@ -1,0 +1,32 @@
+{
+    "name": "barberry/plugin-pdf",
+    "type": "barberry-plugin",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Magomogo/barberry-plugin-installer"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/kevich/barberry-interfaces"
+        }
+    ],
+    "require": {
+        "barberry/plugin-installer": "*",
+        "barberry/interfaces": "*"
+    },
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Maxim Gnatenko",
+            "email": "maxim@xiag.ch"
+        },
+        {
+            "name": "Andrew Kevich",
+            "email": "kevich@xiag.ch"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"Barberry\\Plugin\\Pdf": "src/"}
+    }
+}
