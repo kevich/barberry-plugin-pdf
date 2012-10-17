@@ -7,6 +7,7 @@ class Command implements InterfaceCommand
 {
 
     private $width;
+    private $page;
 
     /**
      * @param string $commandString
@@ -14,7 +15,14 @@ class Command implements InterfaceCommand
      */
     public function configure($commandString)
     {
-        $this->width = is_numeric($commandString) ? intval($commandString) : null;
+        $params = explode("_", $commandString);
+        $params = explode("_", $commandString);
+        foreach ($params as $val) {
+            if (preg_match("@^([\d]*)p([\d]*)$@", $val, $regs)) {
+                $this->width = strlen($regs[1]) ? (int)$regs[1] : null;
+                $this->page = strlen($regs[2]) ? (int)$regs[2] : null;
+            }
+        }
         return $this;
     }
 
@@ -23,9 +31,14 @@ class Command implements InterfaceCommand
         return is_null($this->width) ? 800 : min(2000, max(10, $this->width));
     }
 
+    public function page()
+    {
+        return is_null($this->page) ? 1 : $this->page;
+    }
+
     public function __toString()
     {
-        return strval($this->width);
+        return ($this->width || $this->page) ? strval($this->width . 'p' . $this->page) : '';
     }
 
     /**

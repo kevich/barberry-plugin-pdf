@@ -45,16 +45,22 @@ class Converter implements Plugin\InterfaceConverter
         $filename = tempnam($this->tempPath, 'pftops_');
         file_put_contents($filename, $bin);
 
-        $pipePdf2Ps = new Pipe(self::pdfToPsPopplerCommand($filename));
-        $pipePs2Jpeg = new Pipe(self::psToJpegImagemagic($command->width()));
-        $jpeg = $pipePs2Jpeg->process($pipePdf2Ps->process());
+        $jpeg = $this->convertPdfPageToJpeg($filename, $command->page(), $command->width());
         unlink($filename);
         return $jpeg;
     }
 
-    private static function pdfToPsPopplerCommand($tmpFilename)
+    private function convertPdfPageToJpeg($filename, $pageNumber, $width)
     {
-        return 'pdftops -level3 -f 1 -l 1 -expand ' . escapeshellarg($tmpFilename) . ' -';
+        $pipePdf2Ps = new Pipe(self::pdfToPsPopplerCommand($filename, $pageNumber));
+        $pipePs2Jpeg = new Pipe(self::psToJpegImagemagic($width));
+        $jpeg = $pipePs2Jpeg->process($pipePdf2Ps->process());
+        return $jpeg;
+    }
+
+    private static function pdfToPsPopplerCommand($tmpFilename, $page)
+    {
+        return 'pdftops -level3 -f 1 -l ' . $page . ' -expand ' . escapeshellarg($tmpFilename) . ' -';
     }
 
     private static function psToJpegImagemagic($width)
