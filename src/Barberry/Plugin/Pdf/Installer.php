@@ -4,6 +4,7 @@ namespace Barberry\Plugin\Pdf;
 
 use Barberry\Plugin;
 use Barberry\Direction;
+use Barberry\Monitor;
 use Barberry\ContentType;
 
 class Installer implements Plugin\InterfaceInstaller
@@ -18,7 +19,8 @@ class Installer implements Plugin\InterfaceInstaller
         $this->tempDirectory = $tempDirectory;
     }
 
-    public function install(Direction\ComposerInterface $composer)
+    public function install(Direction\ComposerInterface $composer, Monitor\ComposerInterface $monitorComposer,
+        $pluginParams = array())
     {
 
         foreach (self::directions() as $pair) {
@@ -32,6 +34,8 @@ PHP
                 'new Plugin\Pdf\Command'
             );
         }
+
+        $monitorComposer->writeClassDeclaration('Pdf', "parent::__construct('{$this->tempDirectory}')");
     }
 
     private static function directions()
