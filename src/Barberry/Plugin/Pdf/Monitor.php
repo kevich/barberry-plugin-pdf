@@ -5,7 +5,7 @@ use Barberry\Plugin;
 
 class Monitor implements Plugin\InterfaceMonitor
 {
-    private $checkDirectories = array();
+    private $tempDirectory;
 
     private $dependencies = array(
         'pdftops' => 'Please install poppler (http://poppler.freedesktop.org)',
@@ -15,7 +15,7 @@ class Monitor implements Plugin\InterfaceMonitor
 
     public function __construct($tmpDir)
     {
-        $this->checkDirectories[] = $tmpDir;
+        $this->tempDirectory = $tmpDir;
     }
 
     public function dependencies()
@@ -37,14 +37,8 @@ class Monitor implements Plugin\InterfaceMonitor
 
     public function reportMalfunction()
     {
-        $errors = array();
-        foreach ($this->checkDirectories as $directory) {
-            $answer = $this->reportWritableDirectory($directory);
-            if (!is_null($answer)) {
-                $errors[] = $answer;
-            }
-        }
-        return $errors;
+        $answer = $this->reportWritableDirectory($this->tempDirectory);
+        return (!is_null($answer)) ? array($answer) : array();
     }
 
 //-------------------------------------------------------------------------
