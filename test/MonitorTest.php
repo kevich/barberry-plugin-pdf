@@ -25,19 +25,22 @@ class MonitoringTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnErrorIfDirectoryIsNotWritable()
     {
-        $monitor = new Monitor($this->testDirNotWritable);
+        $monitor = new Monitor();
+        $monitor->configure($this->testDirNotWritable);
         $this->assertEquals(array('ERROR: Plugin Pdf temporary directory is not writeable.'), $monitor->reportMalfunction());
     }
 
     public function testReturnOkIfDirectoryIsWritable()
     {
-        $monitor = new Monitor($this->testDirWritable);
+        $monitor = new Monitor();
+        $monitor->configure($this->testDirWritable);
         $this->assertEquals(array(), $monitor->reportMalfunction());
     }
 
     public function testReturnErrorIfNoUnixCommandFound()
     {
-        $monitor = $this->getMock('Barberry\Plugin\Pdf\Monitor', array('dependencies'), array($this->testDirWritable));
+        $monitor = $this->getMock('Barberry\Plugin\Pdf\Monitor', array('dependencies'));
+        $monitor->configure($this->testDirWritable);
         $monitor->expects($this->any())->method('dependencies')->will($this->returnValue(array('no-command'=>'Please install no-command')));
         $this->assertEquals(array("MISSING - Please install no-command\n\n"), $monitor->reportUnmetDependencies());
     }

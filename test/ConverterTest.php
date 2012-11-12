@@ -8,21 +8,24 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     public function testConvertsPdfToTxt()
     {
-        $converter = new Converter(ContentType::txt(), __DIR__ . '/../tmp/');
+        $converter = new Converter;
+        $converter->configure(ContentType::txt(), __DIR__ . '/../tmp/');
         $bin = $converter->convert(file_get_contents(__DIR__ . '/data/sample.pdf'));
         $this->assertEquals(ContentType::txt(), ContentType::byString($bin));
     }
 
     public function testConvertsPdfToJpeg()
     {
-        $converter = new Converter(ContentType::jpeg(), __DIR__ . '/../tmp/');
+        $converter = new Converter;
+        $converter->configure(ContentType::jpeg(), __DIR__ . '/../tmp/');
         $bin = $converter->convert(file_get_contents(__DIR__ . '/data/sample.pdf'), self::resize900Command());
         $this->assertEquals(ContentType::jpeg(), ContentType::byString($bin));
     }
 
     public function testConvertsPdfToJpegWithEmptyComandWidth()
     {
-        $converter = new Converter(ContentType::jpeg(), __DIR__ . '/../tmp/');
+        $converter = new Converter;
+        $converter->configure(ContentType::jpeg(), __DIR__ . '/../tmp/');
         $bin = $converter->convert(file_get_contents(__DIR__ . '/data/sample.pdf'), self::resizeEmptyCommand());
         $this->assertEquals(ContentType::jpeg(), ContentType::byString($bin));
     }
@@ -31,7 +34,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $command = new Command();
         $command->configure('p10');
-        $converter = m::mock(new Converter(ContentType::jpeg(), __DIR__ . '/../tmp/'));
+        $converter = m::mock(new Converter);
+        $converter->configure(ContentType::jpeg(), __DIR__ . '/../tmp/');
         $converter
             ->shouldReceive('convertPdfPageToJpeg')
             ->with(anything(), '10', anything());

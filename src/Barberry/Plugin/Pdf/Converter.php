@@ -18,7 +18,7 @@ class Converter implements Plugin\InterfaceConverter
      */
     private $targetContentType;
 
-    public function __construct(ContentType $targetContentType, $tempPath)
+    public function configure(ContentType $targetContentType, $tempPath)
     {
         $this->tempPath = $tempPath;
         $this->targetContentType = $targetContentType;

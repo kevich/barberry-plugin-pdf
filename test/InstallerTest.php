@@ -26,8 +26,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public function testInstallsPDFtoTXTDirection()
     {
-        $installer = new Installer('/tmp/');
-        $installer->install(new Composer($this->directionDir), new Monitor\Composer($this->monitorDir));
+        $installer = new Installer();
+        $installer->install(new Composer($this->directionDir, '/tmp/'), new Monitor\Composer($this->monitorDir, '/tmp/'));
 
         include $this->directionDir . 'PdfToTxt.php';
         $pdfToTxt = new Direction\PdfToTxtDirection('');
@@ -36,8 +36,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public function testInstallsPDFtoJpegDirection()
     {
-        $installer = new Installer('/tmp/');
-        $installer->install(new Composer($this->directionDir), new Monitor\Composer($this->monitorDir));
+        $installer = new Installer();
+        $installer->install(new Composer($this->directionDir, '/tmp/'), new Monitor\Composer($this->monitorDir, '/tmp/'));
 
         include $this->directionDir . 'PdfToJpg.php';
         $pdfToJpg = new Direction\PdfToJpgDirection('');

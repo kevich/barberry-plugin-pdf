@@ -11,7 +11,7 @@ class Command implements InterfaceCommand
 
     /**
      * @param string $commandString
-     * @return Command
+     * @return self
      */
     public function configure($commandString)
     {

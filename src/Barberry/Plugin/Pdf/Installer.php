@@ -9,15 +9,6 @@ use Barberry\ContentType;
 
 class Installer implements Plugin\InterfaceInstaller
 {
-    /**
-     * @var string
-     */
-    private $tempDirectory;
-
-    public function __construct($tempDirectory)
-    {
-        $this->tempDirectory = $tempDirectory;
-    }
 
     public function install(Direction\ComposerInterface $composer, Monitor\ComposerInterface $monitorComposer,
         $pluginParams = array())
@@ -26,23 +17,20 @@ class Installer implements Plugin\InterfaceInstaller
         foreach (self::directions() as $pair) {
             $composer->writeClassDeclaration(
                 $pair[0],
-                eval('return ' . $pair[1] . ';'),
-                <<<PHP
-new Plugin\Pdf\Converter ($pair[1], '{$this->tempDirectory}');
-PHP
-                ,
+                $pair[1],
+                'new Plugin\Pdf\Converter',
                 'new Plugin\Pdf\Command'
             );
         }
 
-        $monitorComposer->writeClassDeclaration('Pdf', "parent::__construct('{$this->tempDirectory}')");
+        $monitorComposer->writeClassDeclaration('Pdf');
     }
 
     private static function directions()
     {
         return array(
-            array(ContentType::pdf(), '\Barberry\ContentType::jpeg()'),
-            array(ContentType::pdf(), '\Barberry\ContentType::txt()'),
+            array(ContentType::pdf(), \Barberry\ContentType::jpeg()),
+            array(ContentType::pdf(), \Barberry\ContentType::txt()),
         );
     }
 
