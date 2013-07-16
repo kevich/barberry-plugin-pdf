@@ -26,7 +26,7 @@ class Converter implements Plugin\InterfaceConverter
 
     public function convert($bin, Plugin\InterfaceCommand $command = null)
     {
-        if ($this->targetContentType->standartExtention() == 'txt') {
+        if ($this->targetContentType->standardExtension() == 'txt') {
             return $this->convertToText($bin);
         }
         return $this->convertToJpeg($bin, $command);
@@ -53,7 +53,7 @@ class Converter implements Plugin\InterfaceConverter
     private function convertPdfPageToJpeg($filename, $pageNumber, $width)
     {
         $pipePdf2Ps = new Pipe(self::pdfToPsPopplerCommand($filename, $pageNumber));
-        $pipePs2Jpeg = new Pipe(self::psToJpegImagemagic($width));
+        $pipePs2Jpeg = new Pipe(self::psToJpegImagemagik($width));
         $jpeg = $pipePs2Jpeg->process($pipePdf2Ps->process());
         return $jpeg;
     }
@@ -63,7 +63,7 @@ class Converter implements Plugin\InterfaceConverter
         return 'pdftops -level3 -f ' . $page . ' -l ' . $page . ' -expand ' . escapeshellarg($tmpFilename) . ' -';
     }
 
-    private static function psToJpegImagemagic($width)
+    private static function psToJpegImagemagik($width)
     {
         return "convert -density 150 -[0] -background white -flatten -depth 8 -resize $width jpeg:-";
     }

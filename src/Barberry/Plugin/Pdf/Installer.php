@@ -18,8 +18,8 @@ class Installer implements Plugin\InterfaceInstaller
             $composer->writeClassDeclaration(
                 $pair[0],
                 $pair[1],
-                'new Plugin\Pdf\Converter',
-                'new Plugin\Pdf\Command'
+                'new Plugin\\Pdf\\Converter',
+                'new Plugin\\Pdf\\Command'
             );
         }
 

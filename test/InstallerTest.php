@@ -30,7 +30,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $installer->install(new Composer($this->directionDir, '/tmp/'), new Monitor\Composer($this->monitorDir, '/tmp/'));
 
         include $this->directionDir . 'PdfToTxt.php';
-        $pdfToTxt = new Direction\PdfToTxtDirection('');
+        $pdfToTxt = new Direction\DirectionPdfToTxt('');
         $this->assertNotNull($pdfToTxt->convert(file_get_contents(__DIR__ . '/data/sample.pdf')));
     }
 
@@ -40,7 +40,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $installer->install(new Composer($this->directionDir, '/tmp/'), new Monitor\Composer($this->monitorDir, '/tmp/'));
 
         include $this->directionDir . 'PdfToJpg.php';
-        $pdfToJpg = new Direction\PdfToJpgDirection('');
+        $pdfToJpg = new Direction\DirectionPdfToJpg('');
         $this->assertNotNull($pdfToJpg->convert(file_get_contents(__DIR__ . '/data/sample.pdf')));
     }
 }
