@@ -9,6 +9,9 @@ branches:
     - master
     - /^\d+\.\d+$/
 
+before_install:
+  - sudo apt-get install poppler-utils
+
 before_script:
   - composer install --dev
 
